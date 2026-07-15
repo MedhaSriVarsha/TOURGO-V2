@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TourGo — Rajamahendravaram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- ============================================================
+       VIEW: HOME
+       ============================================================ -->
+  <section class="view is-active" id="view-home" data-view="home">
+    <header class="topbar">
+      <button class="icon-btn glass" id="btnDrawer" aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1>Good Morning, Varsha <span class="wave">👋</span></h1>
+        <p>Where do you want to explore today?</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn glass" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" width="19" height="19"><path d="M12 3a5 5 0 00-5 5v3.2c0 .6-.2 1.2-.6 1.7L5 15h14l-1.4-2.1a2.8 2.8 0 01-.6-1.7V8a5 5 0 00-5-5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 18a2.5 2.5 0 005 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span class="dot-badge"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="scroll-area">
+
+      <div class="search-row">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" width="17" height="17"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="text" placeholder="Search temples, hotels, food...">
+        </div>
+        <button class="icon-btn filled" aria-label="Filters">
+          <svg viewBox="0 0 24 24" width="17" height="17"><path d="M4 6h16M7 12h10M10 18h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="chip-row" id="categoryChips">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="temple">Temples</button>
+        <button class="chip" data-filter="hotel">Hotels</button>
+        <button class="chip" data-filter="restaurant">Restaurants</button>
+        <button class="chip" data-filter="riverside">Riverside</button>
+      </div>
+
+      <div class="section-head">
+        <h2>Sacred Temples</h2>
+        <button class="see-all">See All</button>
+      </div>
+      <div class="hscroll" id="templeScroll"></div>
+
+      <div class="section-head">
+        <h2>Recommended Stays</h2>
+        <p class="section-sub">Handpicked for comfort</p>
+      </div>
+      <div class="hscroll" id="hotelScroll"></div>
+
+      <div class="section-head">
+        <h2>Where to Eat</h2>
+        <div class="tag-pair">
+          <span class="tag-pill is-active">Local Favorites</span>
+          <span class="tag-pill">River View</span>
+        </div>
+      </div>
+      <div class="stack-list" id="restaurantList"></div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIEW: EXPLORE
+       ============================================================ -->
+  <section class="view" id="view-explore" data-view="explore">
+    <header class="topbar">
+      <button class="icon-btn glass" data-back="home" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="19" height="19"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1 class="small">Explore</h1>
+        <p>Every place in Rajamahendravaram</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn glass" aria-label="Search">
+          <svg viewBox="0 0 24 24" width="17" height="17"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="scroll-area">
+      <div class="chip-row" id="exploreChips">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="temple">Temples</button>
+        <button class="chip" data-filter="hotel">Hotels</button>
+        <button class="chip" data-filter="restaurant">Restaurants</button>
+      </div>
+
+      <div class="explore-grid" id="exploreGrid"></div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIEW: AI TRIP PLANNER
+       ============================================================ -->
+  <section class="view" id="view-planner" data-view="planner">
+    <header class="topbar">
+      <button class="icon-btn glass" data-back="home" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="19" height="19"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1 class="small">AI Trip Planner</h1>
+        <p>Your Rajamahendravaram travel assistant</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn glass" aria-label="Save">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 4h12v16l-6-4-6 4V4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="scroll-area">
+      <div class="glass-card planner-card">
+        <p class="planner-kicker">TELL US YOUR PREFERENCES</p>
+
+        <p class="field-label">What interests you?</p>
+        <div class="chip-row wrap" id="interestChips">
+          <button class="chip is-active" data-value="Temple Trail">Temple Trail</button>
+          <button class="chip" data-value="Heritage">Heritage</button>
+          <button class="chip" data-value="Godavari Riverside">Riverside</button>
+          <button class="chip" data-value="Local Food">Local Food</button>
+          <button class="chip" data-value="Family">Family</button>
+        </div>
+
+        <p class="field-label">Trip length</p>
+        <div class="chip-row wrap" id="durationChips">
+          <button class="chip" data-value="1 Day">1 Day</button>
+          <button class="chip is-active" data-value="2-3 Days">2-3 Days</button>
+          <button class="chip" data-value="Weekend">Weekend</button>
+        </div>
+
+        <p class="field-label">Describe your trip</p>
+        <textarea id="plannerText" rows="4">I want a peaceful temple and heritage trip along the Godavari river with good local food and photography spots.</textarea>
+
+        <button class="primary-btn full" id="btnCreateTrip">
+          <span>Create My Trip</span>
+          <span class="sparkle">✨</span>
+        </button>
+      </div>
+
+      <div class="section-head tight">
+        <h2>AI Suggested For You</h2>
+      </div>
+      <div class="hscroll" id="aiPickScroll"></div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIEW: LIVE NAVIGATION
+       ============================================================ -->
+  <section class="view" id="view-nav" data-view="nav">
+    <header class="topbar">
+      <button class="icon-btn glass" data-back="home" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="19" height="19"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1 class="small">Live Navigation</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn glass" aria-label="Share">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 4v12M12 4l-4 4M12 4l4 4M5 15v3a2 2 0 002 2h10a2 2 0 002-2v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="scroll-area no-pad">
+
+      <!-- From (current location) → To (selected place) -->
+      <div class="route-endpoints">
+        <div class="rail">
+          <span class="dot start"></span>
+          <span class="line"></span>
+          <span class="dot end"></span>
+        </div>
+        <div class="stops">
+          <div>
+            <p class="stop-label">From — your location</p>
+            <p class="stop-value" id="navFromLabel">Rajamahendravaram, Andhra Pradesh</p>
+          </div>
+          <div>
+            <p class="stop-label">To — destination</p>
+            <p class="stop-value" id="navDestName">Sri Uma Markandeyeswara Temple</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-scene" id="mapScene">
+        <svg class="map-grid" viewBox="0 0 400 500" preserveAspectRatio="none">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="400" height="500" fill="url(#grid)"/>
+          <path id="routePath" d="M60,430 C140,420 90,320 170,300 C250,280 210,170 300,90"
+                fill="none" stroke="#c084fc" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 14"/>
+        </svg>
+        <div class="map-pin start-pin" style="left:15%; top:86%;">
+          <span class="pin-dot"></span>
+        </div>
+        <div class="map-pin end-pin" id="navEndPin" style="left:75%; top:18%;">
+          <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8z" fill="#7c3aed" stroke="#fff" stroke-width="1.2"/><circle cx="12" cy="10" r="2.6" fill="#fff"/></svg>
+        </div>
+
+        <div class="route-pill" id="routePill">
+          <strong id="routeTime">18 min</strong>
+          <span id="routeDist">4.2 km</span>
+        </div>
+      </div>
+
+      <div class="glass-card route-card">
+        <h3><span id="navMetaGlyph">🛕</span> <span id="navDestSub">Godavari Bund Road, near Pushkar Ghat</span></h3>
+        <p class="route-sub" id="routeSub">Route calculated from your current location</p>
+        <div class="route-meta">
+          <div><strong id="navMetaTime">18 min</strong><span>Duration</span></div>
+          <div><strong id="navMetaDist">4.2 km</strong><span>Distance</span></div>
+          <div><strong>Best Route</strong><span>Via Bund Rd</span></div>
+        </div>
+        <button class="primary-btn full" id="btnStartNav">Start Navigation</button>
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIEW: DESTINATION DETAIL
+       ============================================================ -->
+  <section class="view" id="view-detail" data-view="detail">
+    <div class="scroll-area no-pad">
+      <div class="detail-hero" id="detailHero">
+        <button class="icon-btn glass hero-back" data-back="home" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="19" height="19"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="icon-btn glass hero-save" id="btnSave" aria-label="Save">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 21s-7.2-4.6-10-9.2C.5 8 2.3 4 6.4 4c2 0 3.6 1.1 5.6 3.3C14 5.1 15.6 4 17.6 4c4.1 0 5.9 4 4.4 7.8C19.2 16.4 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="hero-glyph" id="heroGlyph"></div>
+        <div class="hero-title">
+          <p class="hero-tag" id="detailTag">Temple</p>
+          <h1 id="detailName">Sri Uma Markandeyeswara Temple</h1>
+        </div>
+      </div>
+
+      <div class="detail-body">
+        <div class="rating-row">
+          <span class="stars">★★★★★</span>
+          <strong id="detailRating">4.7</strong>
+          <span class="muted" id="detailReviews">(2,427 reviews)</span>
+        </div>
+
+        <div class="info-grid" id="detailInfoGrid"></div>
+
+        <h3 class="block-title">About</h3>
+        <p class="about-text" id="detailAbout"></p>
+
+        <div class="glass-card route-mini">
+          <div>
+            <p class="route-mini-label">Route from your location</p>
+            <p class="route-mini-value" id="detailRouteVal">18 min · 4.2 km</p>
+          </div>
+          <button class="secondary-btn" id="btnDetailNav">Navigate</button>
+        </div>
+
+        <button class="primary-btn full" id="btnDetailBook">View Details</button>
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIEW: BOOKINGS
+       ============================================================ -->
+  <section class="view" id="view-bookings" data-view="bookings">
+    <header class="topbar">
+      <button class="icon-btn glass" data-back="home" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="19" height="19"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1 class="small">My Bookings</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn glass" aria-label="Search">
+          <svg viewBox="0 0 24 24" width="17" height="17"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="scroll-area">
+      <div class="tab-row" id="bookingTabs">
+        <button class="tab is-active" data-tab="upcoming">Upcoming</button>
+        <button class="tab" data-tab="completed">Completed</button>
+        <button class="tab" data-tab="cancelled">Cancelled</button>
+      </div>
+
+      <div class="stack-list" id="bookingList"></div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIEW: PROFILE
+       ============================================================ -->
+  <section class="view" id="view-profile" data-view="profile">
+    <header class="topbar">
+      <button class="icon-btn glass" data-back="home" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="19" height="19"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1 class="small">Profile</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn glass" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19 12a7 7 0 00-.1-1.2l2-1.5-2-3.4-2.3.9a7 7 0 00-2-1.2L14.2 3H9.8l-.4 2.6a7 7 0 00-2 1.2l-2.3-.9-2 3.4 2 1.5A7 7 0 005 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-.9c.6.5 1.3.9 2 1.2l.4 2.6h4.4l.4-2.6a7 7 0 002-1.2l2.3.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="scroll-area">
+      <div class="profile-card">
+        <div class="avatar">VS</div>
+        <h2>Varsha Sri</h2>
+        <p>Rajamahendravaram Explorer</p>
+        <div class="profile-stats-card">
+          <div class="profile-stats">
+            <div><strong>14</strong><span>Trips</span></div>
+            <div><strong>9</strong><span>Temples</span></div>
+            <div><strong>22</strong><span>Bookings</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-list">
+        <button class="menu-item"><span class="menu-ic">👤</span>My Profile<svg class="chev" viewBox="0 0 24 24" width="16" height="16"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="menu-item"><span class="menu-ic">💳</span>Payment Methods<svg class="chev" viewBox="0 0 24 24" width="16" height="16"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="menu-item"><span class="menu-ic">📍</span>Saved Places<svg class="chev" viewBox="0 0 24 24" width="16" height="16"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="menu-item"><span class="menu-ic">🧭</span>Travel Preferences<svg class="chev" viewBox="0 0 24 24" width="16" height="16"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="menu-item"><span class="menu-ic">🎁</span>Refer &amp; Earn<svg class="chev" viewBox="0 0 24 24" width="16" height="16"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="menu-item"><span class="menu-ic">🛟</span>Help &amp; Support<svg class="chev" viewBox="0 0 24 24" width="16" height="16"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="menu-item danger" id="btnLogOut"><span class="menu-ic">🚪</span>Log Out</button>
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SHARED BOTTOM NAVIGATION
+       ============================================================ -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-btn is-active" data-nav="home">
+      <svg viewBox="0 0 24 24" width="21" height="21"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-btn" data-nav="explore">
+      <svg viewBox="0 0 24 24" width="21" height="21"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span>Explore</span>
+    </button>
+    <button class="nav-btn" data-nav="planner">
+      <svg viewBox="0 0 24 24" width="21" height="21"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8L18 15z" fill="currentColor"/></svg>
+      <span>AI Planner</span>
+    </button>
+    <button class="nav-btn" data-nav="bookings">
+      <svg viewBox="0 0 24 24" width="21" height="21"><rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 10h16M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <span>Bookings</span>
+    </button>
+    <button class="nav-btn" data-nav="profile">
+      <svg viewBox="0 0 24 24" width="21" height="21"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c1-3.6 4-5.4 7-5.4s6 1.8 7 5.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <span>Profile</span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="home.js"></script>
+</body>
+</html>

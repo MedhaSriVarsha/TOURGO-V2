@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TourGo — Somewhere New Awaits</title>
+<link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+
+  <!-- Desktop stage centers the mobile frame -->
+  <div class="stage">
+
+    <!-- Mobile screen frame: 430x932 -->
+    <div class="phone" id="phone">
+
+      <div class="slides" id="slides">
+
+        <!-- =========================================================
+             Slide 1 — the original twilight splash screen
+             ========================================================= -->
+        <section class="slide slide-1 is-active" id="slide1" data-index="0">
+
+          <!-- Background artwork layer (scales + slow zoom/parallax) -->
+          <div class="bg-layer" id="bgLayer">
+            <img src="background.jpeg" alt="" class="bg-image" draggable="false">
+          </div>
+
+          <!-- Atmospheric overlays: vignette, glow, grain -->
+          <div class="vignette"></div>
+          <div class="glow-top"></div>
+          <div class="glow-bottom"></div>
+
+          <!-- Floating particles + twinkling stars (canvas-free, DOM based) -->
+          <div class="particles" id="particles"></div>
+
+          <!-- Shooting stars are injected here at random intervals by script.js -->
+          <div class="comet-layer" id="cometLayer"></div>
+
+          <!-- Signature element: a real 3D wireframe glass orb -->
+          <div class="globe-scene" id="globe" aria-hidden="true">
+
+            <div class="globe-shadow"></div>
+
+            <div class="globe-sphere" id="globeSphere">
+              <div class="globe-band band-1"></div>
+              <div class="globe-band band-2"></div>
+              <div class="globe-band band-3"></div>
+              <div class="globe-band band-4"></div>
+              <div class="globe-band band-5"></div>
+              <div class="globe-band band-6"></div>
+
+              <div class="globe-lat lat-top"></div>
+              <div class="globe-lat lat-equator"></div>
+              <div class="globe-lat lat-bottom"></div>
+
+              <div class="globe-core-glow"></div>
+            </div>
+
+            <div class="globe-glass"></div>
+            <div class="globe-shine"></div>
+
+            <div class="orbit-plane plane-1">
+              <div class="orbit-spin spin-1"><span class="mote mote-a"></span></div>
+            </div>
+            <div class="orbit-plane plane-2">
+              <div class="orbit-spin spin-2"><span class="mote mote-b"></span></div>
+            </div>
+            <div class="orbit-plane plane-3">
+              <div class="orbit-spin spin-3"><span class="mote mote-c"></span></div>
+            </div>
+            <div class="orbit-plane plane-4">
+              <div class="orbit-spin spin-4"><span class="mote mote-d"></span></div>
+            </div>
+
+          </div>
+
+          <!-- Title block -->
+          <div class="title-block">
+            <h1 class="brand" id="brandTitle">
+              <span class="tour">Tour</span><span class="go">Go</span>
+            </h1>
+            <p class="tagline" id="tagline">Somewhere new is always waiting</p>
+          </div>
+
+          <!-- Bottom glass CTA card -->
+          <div class="cta-card" id="ctaCard">
+            <p class="cta-kicker">YOUR NEXT ADVENTURE</p>
+            <p class="cta-line">One tap. A hundred horizons.</p>
+
+            <button class="cta-button" id="ctaButton" type="button">
+              <span>Begin the Journey</span>
+              <svg class="cta-arrow" viewBox="0 0 24 24" width="18" height="18">
+                <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+        </section>
+
+        <!-- =========================================================
+             Slide 2 — "Explore Beyond. Travel Smarter." reveal.
+             Content is centered as a flex column between the back
+             button and the shared dot nav, so it stays balanced no
+             matter the screen height.
+             ========================================================= -->
+        <section class="slide slide-2" id="slide2" data-index="1">
+
+          <div class="bg-layer bg-layer-2">
+            <img src="background2.jpeg" alt="" class="bg-image bg-image-2" draggable="false">
+          </div>
+
+          <div class="vignette vignette-2"></div>
+
+          <button class="back-btn" type="button" aria-label="Back to previous screen">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div class="slide2-content">
+
+            <!-- Paper airplane tracing a dashed, glowing flight path -->
+            <div class="plane-scene" aria-hidden="true">
+
+              <svg class="plane-trail" viewBox="0 0 300 260" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="trailGrad" x1="0" y1="1" x2="1" y2="0">
+                    <stop offset="0" stop-color="#c9a6ff" stop-opacity="0"/>
+                    <stop offset="0.55" stop-color="#c9a6ff" stop-opacity="0.55"/>
+                    <stop offset="1" stop-color="#ffd9a8" stop-opacity="0.95"/>
+                  </linearGradient>
+                </defs>
+                <path class="trail-path"
+                      d="M34,226 C86,232 40,178 92,168 C136,159 108,112 158,102 C196,94 206,80 232,64"
+                      fill="none" stroke="url(#trailGrad)" stroke-width="2.4"
+                      stroke-linecap="round" stroke-dasharray="5 11"/>
+              </svg>
+
+              <span class="twinkle t1"></span>
+              <span class="twinkle t2"></span>
+              <span class="twinkle t3"></span>
+
+              <div class="paper-plane">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                  <defs>
+                    <linearGradient id="planeGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#ffd9a8"/>
+                      <stop offset="0.5" stop-color="#ffb27a"/>
+                      <stop offset="1" stop-color="#c9a6ff"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M6 34 L58 8 L34 58 L28 38 Z" fill="url(#planeGrad)"/>
+                  <path d="M6 34 L34 58 L28 38 Z" fill="#ffffff" opacity="0.22"/>
+                  <path d="M6 34 L58 8 L28 38 Z" fill="#ffffff" opacity="0.08"/>
+                </svg>
+              </div>
+
+            </div>
+
+            <!-- Glass panel: headline, divider, supporting copy -->
+            <div class="explore-card" id="exploreCard">
+              <h2 class="explore-heading">
+                <span class="explore-line">Explore Beyond.</span>
+                <span class="explore-line">Travel Smarter.</span>
+              </h2>
+              <div class="explore-divider"></div>
+              <p class="explore-copy">Discover hidden places, plan perfect trips and create memories that last forever.</p>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =========================================================
+             Slide 3 — feature highlights, reached via the 3rd dot.
+             Tapping the arrow moves on to sign in / sign up.
+             ========================================================= -->
+        <section class="slide slide-3" id="slide3" data-index="2">
+
+          <div class="bg-layer bg-layer-3">
+            <img src="background2.jpeg" alt="" class="bg-image bg-image-3" draggable="false">
+          </div>
+          <div class="tint-blue"></div>
+          <div class="vignette vignette-3"></div>
+
+          <button class="back-btn" type="button" aria-label="Back to previous screen">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div class="feature-list" id="featureList">
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M12 2l2.2 3.6 4.1.8-2.9 3 .7 4.1L12 11.6 8 13.5l.7-4.1-2.9-3 4.1-.8L12 2z"
+                        fill="none" stroke="currentColor" stroke-width="1.6"
+                        stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="feature-text">
+                <h3>AI Trip Planner</h3>
+                <p>Smart itineraries just for you.</p>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 1 1 18.5 10c0 5.4-6.5 11-6.5 11z"
+                        fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M12 6.8v3.5l2.4 1.4" fill="none" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="feature-text">
+                <h3>Hidden Places</h3>
+                <p>Explore offbeat and unique experiences.</p>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 1 1 18.5 10c0 5.4-6.5 11-6.5 11z"
+                        fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M13 6.2l-3.6 4.6h2.9L11 14.8l3.7-4.7h-2.9L13 6.2z"
+                        fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="feature-text">
+                <h3>Live Navigation</h3>
+                <p>Real-time maps for a smooth journey.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <button class="next-arrow" id="nextArrow" type="button" aria-label="Continue to sign in">
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+        </section>
+
+        <!-- =========================================================
+             Slide 4 — sign in / sign up, reached via the arrow on
+             slide 3. Uses the dusk mountain-valley photo as backdrop.
+             ========================================================= -->
+        <section class="slide slide-4" id="slide4" data-index="3">
+
+          <div class="bg-layer bg-layer-4">
+            <img src="background4.jpeg" alt="" class="bg-image bg-image-4" draggable="false">
+          </div>
+          <div class="vignette vignette-4"></div>
+
+          <button class="back-btn" type="button" aria-label="Back to previous screen">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div class="auth-wrap">
+            <div class="auth-card" id="authCard">
+              <h2 class="auth-heading" id="authHeading">Welcome Back <span class="auth-emoji">👋</span></h2>
+              <p class="auth-subtitle" id="authSubtitle">Let's continue your journey</p>
+
+              <div class="auth-field auth-field-name" id="authNameField" hidden>
+                <label for="authName">Full Name</label>
+                <input type="text" id="authName" placeholder="Enter your name" autocomplete="name">
+              </div>
+
+              <div class="auth-field">
+                <label for="authEmail">Email</label>
+                <input type="email" id="authEmail" placeholder="Enter your email" autocomplete="email">
+              </div>
+
+              <div class="auth-field">
+                <label for="authPassword">Password</label>
+                <div class="auth-input-wrap">
+                  <input type="password" id="authPassword" placeholder="Enter your password" autocomplete="current-password">
+                  <button class="auth-eye" type="button" data-target="authPassword" aria-label="Show password">👁</button>
+                </div>
+              </div>
+
+              <div class="auth-field auth-field-confirm" id="authConfirmField" hidden>
+                <label for="authConfirm">Confirm Password</label>
+                <div class="auth-input-wrap">
+                  <input type="password" id="authConfirm" placeholder="Confirm your password" autocomplete="new-password">
+                  <button class="auth-eye" type="button" data-target="authConfirm" aria-label="Show password">👁</button>
+                </div>
+              </div>
+
+              <a href="#" class="auth-forgot" id="authForgot">Forgot Password?</a>
+
+              <label class="auth-terms" id="authTerms" hidden>
+                <input type="checkbox" id="authTermsCheck" checked>
+                <span>I agree to the <a href="#">Terms &amp; Conditions</a></span>
+              </label>
+
+              <button class="auth-submit" id="authSubmit" type="button">
+                <span id="authSubmitLabel">Log In</span>
+              </button>
+
+              <div class="auth-divider" id="authDivider"><span>or continue with</span></div>
+
+              <div class="auth-social" id="authSocial">
+                <button class="auth-social-btn" type="button">
+                  <svg viewBox="0 0 24 24">
+                    <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.68 4.1-5.5 4.1-3.31 0-6.02-2.74-6.02-6.1S8.69 6 12 6c1.9 0 3.16.8 3.89 1.5l2.65-2.55C16.9 3.32 14.66 2.3 12 2.3 6.9 2.3 2.75 6.42 2.75 11.5S6.9 20.7 12 20.7c6.9 0 8.28-6.05 7.7-9.1H12z"/>
+                  </svg>
+                  Google
+                </button>
+                <button class="auth-social-btn" type="button">
+                  <svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M16.7 12.7c0-2.6 2.1-3.9 2.2-3.9-1.2-1.8-3-2-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.9 1.2 1.9 2.6 3.2 2.5 1.3-.1 1.8-.8 3.3-.8 1.5 0 2 .8 3.3.8 1.4 0 2.3-1.2 3.1-2.5.7-1 1.1-2 1.1-2.1-.1 0-2.7-1-2.7-4zM14.4 5.4c.7-.8 1.1-1.9 1-3-1 .1-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.4z"/>
+                  </svg>
+                  Apple
+                </button>
+              </div>
+
+              <p class="auth-switch">
+                <span id="authSwitchText">Don't have an account?</span>
+                <button class="auth-switch-link" id="authSwitchBtn" type="button">Sign up</button>
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- Shared dot navigation — tap a dot to switch onboarding screens -->
+      <div class="dot-nav" id="dotNav">
+        <button class="dot is-active" type="button" data-slide="0" aria-label="Show splash screen"></button>
+        <button class="dot" type="button" data-slide="1" aria-label="Show Explore Beyond screen"></button>
+        <button class="dot" type="button" data-slide="2" aria-label="Show feature highlights screen"></button>
+      </div>
+
+    </div>
+  </div>
+
+<script src="onboarding.js"></script>
+</body>
+</html>

@@ -1,0 +1,1460 @@
+/* =========================================================
+   TourGo Splash Screen
+   Premium cinematic twilight onboarding screen
+   ========================================================= */
+
+:root {
+  /* ---- Palette (sampled from artwork) ---- */
+  --twilight-deep:      #1b1140;
+  --twilight-purple:    #4c2f8f;
+  --twilight-orange:    #ff9d6c;
+  --lavender:           #d8cdfb;
+  --warm-orange:        #ffb27a;
+  --star-white:         #fff6e8;
+  --glass-border:       rgba(255, 255, 255, 0.18);
+  --glass-fill:         rgba(255, 255, 255, 0.07);
+
+  /* ---- Frosted white glass (matches reference cards) ---- */
+  --glass-fill-light:   rgba(255, 255, 255, 0.26);
+  --glass-fill-light-2: rgba(255, 255, 255, 0.15);
+  --glass-border-light: rgba(255, 255, 255, 0.46);
+
+  /* ---- Frame dimensions (design reference) ---- */
+  --phone-w: 430px;
+  --phone-h: 932px;
+
+  /* ---- Timings ---- */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: #05030d;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* =========================================================
+   Stage — centers the phone frame on desktop
+   ========================================================= */
+.stage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 30%, #241448 0%, #0a0518 70%, #05030d 100%);
+}
+
+/* =========================================================
+   Phone frame
+   ========================================================= */
+.phone {
+  position: relative;
+  width: var(--phone-w);
+  height: var(--phone-h);
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  border-radius: 44px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 40px 100px rgba(0,0,0,0.65),
+    0 0 120px rgba(120, 80, 220, 0.25);
+  background: #0a0518;
+  isolation: isolate;
+}
+
+@media (max-width: 460px), (max-height: 950px) {
+  .phone {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* =========================================================
+   Background artwork — slow cinematic zoom + parallax
+   ========================================================= */
+.bg-layer {
+  position: absolute;
+  inset: -20px;
+  z-index: 1;
+  will-change: transform;
+  animation: cinematicZoom 26s ease-in-out infinite alternate;
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  filter: saturate(1.08) contrast(1.03);
+}
+
+@keyframes cinematicZoom {
+  0%   { transform: scale(1.06) translate(0px, 0px); }
+  50%  { transform: scale(1.11) translate(-6px, -4px); }
+  100% { transform: scale(1.06) translate(4px, 3px); }
+}
+
+/* =========================================================
+   Atmospheric overlays
+   ========================================================= */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 35%, rgba(6,3,20,0.55) 100%),
+    linear-gradient(to bottom, rgba(10,5,24,0.35) 0%, rgba(10,5,24,0) 20%, rgba(10,5,24,0) 62%, rgba(6,3,18,0.68) 100%);
+}
+
+.glow-top {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 45%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(180,140,255,0.16) 0%, rgba(180,140,255,0) 70%);
+  animation: pulseGlow 8s ease-in-out infinite;
+}
+
+.glow-bottom {
+  position: absolute;
+  bottom: -12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130%;
+  height: 40%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(255,150,90,0.18) 0%, rgba(255,150,90,0) 70%);
+  animation: pulseGlow 10s ease-in-out infinite reverse;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+
+/* =========================================================
+   Particles / twinkling stars
+   ========================================================= */
+.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--star-white);
+  opacity: 0;
+}
+
+.particle.star {
+  box-shadow: 0 0 6px 1px rgba(255, 244, 214, 0.8);
+  animation: twinkle var(--dur, 4s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.particle.drift {
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 4px rgba(255,255,255,0.4);
+  animation: driftUp var(--dur, 12s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50%      { opacity: 1; transform: scale(1); }
+}
+
+@keyframes driftUp {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(-140px) translateX(12px); opacity: 0; }
+}
+
+/* =========================================================
+   Comet layer — the "surprise": a shooting star streaks across
+   the upper sky at random, unpredictable intervals, leaving a
+   glowing trail and a brief sparkle burst where it fades.
+   Elements are injected/removed by script.js.
+   ========================================================= */
+.comet-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.comet {
+  position: absolute;
+  top: var(--y, 10%);
+  left: var(--x, -10%);
+  width: var(--len, 130px);
+  height: 2.4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,244,222,0.9) 65%,
+    rgba(255,255,255,1) 100%);
+  box-shadow: 0 0 10px 1px rgba(255, 244, 214, 0.7);
+  transform: rotate(var(--angle, 18deg));
+  transform-origin: right center;
+  animation: cometStreak var(--cdur, 1.6s) linear forwards;
+}
+
+@keyframes cometStreak {
+  0%   { transform: rotate(var(--angle, 18deg)) translateX(0); opacity: 0; }
+  8%   { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: rotate(var(--angle, 18deg)) translateX(320px); opacity: 0; }
+}
+
+.spark-burst {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--star-white);
+  box-shadow: 0 0 8px 2px rgba(255,244,214,0.9);
+  animation: sparkBurst 0.7s var(--ease-out-soft) forwards;
+}
+
+@keyframes sparkBurst {
+  0%   { transform: translate(0,0) scale(1);   opacity: 1; }
+  100% { transform: translate(var(--sx), var(--sy)) scale(0); opacity: 0; }
+}
+
+/* Click / tap sparkle burst — a small delightful surprise on interaction */
+.tap-spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--warm-orange);
+  box-shadow: 0 0 6px 2px rgba(255, 178, 122, 0.8);
+  pointer-events: none;
+  z-index: 20;
+  animation: tapSpark 0.8s var(--ease-out-soft) forwards;
+}
+
+@keyframes tapSpark {
+  0%   { transform: translate(-50%, -50%) translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+/* =========================================================
+   Globe emblem — signature element
+   A genuine 3D wireframe glass orb: six meridian rings and
+   three latitude ellipses rotate together in real perspective
+   space, a static glass shell sits above them for the sheen,
+   a soft shadow breathes beneath the orb, and four sparkle
+   motes trace their own tilted orbital rings around it.
+   ========================================================= */
+.globe-scene {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 168px;
+  height: 168px;
+  transform: translateX(-50%);
+  perspective: 760px;
+  z-index: 6;
+  opacity: 0;
+  animation: globeRise 1.1s var(--ease-out-soft) 0.15s forwards;
+}
+
+@keyframes globeRise {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(16px) scale(0.85); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1); }
+}
+
+/* Floating drop-shadow beneath the orb, breathes independently */
+.globe-shadow {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  width: 58%;
+  height: 16px;
+  background: radial-gradient(ellipse at center, rgba(10,4,24,0.5), rgba(10,4,24,0) 72%);
+  transform: translateX(-50%);
+  filter: blur(2px);
+  animation: shadow-breathe 6s ease-in-out 1.3s infinite;
+}
+
+@keyframes shadow-breathe {
+  0%, 100% { transform: translateX(-50%) scale(1);   opacity: .5; }
+  50%      { transform: translateX(-50%) scale(.8);  opacity: .3; }
+}
+
+/* Wireframe sphere, genuinely rotating in 3D */
+.globe-sphere {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: globe-spin 15s linear 1.3s infinite,
+             globe-bob 6s ease-in-out 1.3s infinite;
+}
+
+@keyframes globe-spin {
+  from { transform: rotateY(0deg)   rotateX(-11deg); }
+  to   { transform: rotateY(360deg) rotateX(-11deg); }
+}
+
+@keyframes globe-bob {
+  0%, 100% { margin-top: 0px; }
+  50%      { margin-top: -7px; }
+}
+
+/* Meridian rings — flat circles rotated edge-on around Y so the
+   parent's spin reads as genuine longitude lines sweeping past */
+.globe-band {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.34);
+  box-shadow: 0 0 6px rgba(216,205,251,.18) inset;
+}
+.band-1 { transform: rotateY(0deg);   }
+.band-2 { transform: rotateY(30deg);  }
+.band-3 { transform: rotateY(60deg);  }
+.band-4 { transform: rotateY(90deg);  }
+.band-5 { transform: rotateY(120deg); }
+.band-6 { transform: rotateY(150deg); }
+
+/* Latitude ellipses */
+.globe-lat {
+  position: absolute;
+  left: 0; right: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.28);
+  transform: rotateX(90deg);
+}
+.lat-equator {
+  top: 0; bottom: 0;
+  height: 100%;
+}
+.lat-top {
+  top: 18%;
+  height: 64%;
+  transform: rotateX(90deg) translateY(-30%) scale(.62, .62);
+  opacity: .8;
+}
+.lat-bottom {
+  top: 18%;
+  height: 64%;
+  transform: rotateX(90deg) translateY(30%) scale(.62, .62);
+  opacity: .8;
+}
+
+/* Soft inner light, like a tiny sun inside the glass */
+.globe-core-glow {
+  position: absolute;
+  inset: 24%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(216,205,251,.4), rgba(216,205,251,0) 70%);
+  filter: blur(4px);
+}
+
+/* Static glass shell — does NOT rotate, sits above the wireframe
+   so the sheen reads as a fixed light source on curved glass */
+.globe-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 26%, rgba(255,255,255,.32), rgba(255,255,255,0) 46%),
+    radial-gradient(circle at 70% 76%, rgba(140,105,220,.16), rgba(140,105,220,0) 62%);
+  box-shadow:
+    inset 0 0 20px rgba(255,255,255,.2),
+    inset -8px -10px 22px rgba(20,8,50,.4),
+    0 8px 22px rgba(20,8,50,.4);
+  pointer-events: none;
+}
+
+.globe-shine {
+  position: absolute;
+  top: 12%;
+  left: 18%;
+  width: 30%;
+  height: 19%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,.7), rgba(255,255,255,0) 72%);
+  filter: blur(0.5px);
+  pointer-events: none;
+  animation: shine-pulse 4s ease-in-out 1.3s infinite;
+}
+
+@keyframes shine-pulse {
+  0%, 100% { opacity: .8; }
+  50%      { opacity: 1;  }
+}
+
+/* ===== Orbiting sparkle motes ===== */
+.orbit-plane {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.plane-1 { transform: rotateX(70deg) rotateZ(8deg);   }
+.plane-2 { transform: rotateX(80deg) rotateZ(96deg);  }
+.plane-3 { transform: rotateX(75deg) rotateZ(202deg); }
+.plane-4 { transform: rotateX(85deg) rotateZ(300deg); }
+
+.orbit-spin {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: orbit-z linear 1.3s infinite;
+}
+.spin-1 { animation-duration: 7s;  }
+.spin-2 { animation-duration: 11s; animation-direction: reverse; }
+.spin-3 { animation-duration: 9s;  }
+.spin-4 { animation-duration: 13s; animation-direction: reverse; }
+
+@keyframes orbit-z {
+  from { transform: rotateZ(0deg); }
+  to   { transform: rotateZ(360deg); }
+}
+
+.mote {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, rgba(255,255,255,0) 70%);
+  animation: mote-twinkle 2.4s ease-in-out infinite;
+}
+.mote-a { width: 6px; height: 6px; margin: -3px;   transform: translateX(96px);  box-shadow: 0 0 10px 3px rgba(255,255,255,.85); }
+.mote-b { width: 4px; height: 4px; margin: -2px;   transform: translateX(82px);  box-shadow: 0 0 8px 2px rgba(216,205,251,.85); animation-delay: .6s; }
+.mote-c { width: 5px; height: 5px; margin: -2.5px; transform: translateX(104px); box-shadow: 0 0 9px 3px rgba(255,210,170,.8); animation-delay: 1.1s; }
+.mote-d { width: 3px; height: 3px; margin: -1.5px; transform: translateX(88px);  box-shadow: 0 0 7px 2px rgba(216,205,251,.85); animation-delay: 1.6s; }
+
+@keyframes mote-twinkle {
+  0%, 100% { opacity: .5; }
+  50%      { opacity: 1;  }
+}
+
+/* =========================================================
+   Title block
+   ========================================================= */
+.title-block {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 7;
+  text-align: center;
+  pointer-events: none;
+}
+
+.brand {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(24px) scale(0.9);
+  animation:
+    titleReveal 1.1s var(--ease-out-soft) forwards,
+    titleGlowPulse 5s ease-in-out 1.4s infinite;
+}
+
+.brand .tour {
+  color: var(--lavender);
+  text-shadow: 0 0 24px rgba(216, 205, 251, 0.45);
+}
+
+.brand .go {
+  font-style: italic;
+  color: var(--warm-orange);
+  text-shadow: 0 0 26px rgba(255, 178, 122, 0.55);
+}
+
+@keyframes titleReveal {
+  0%   { opacity: 0; transform: translateY(24px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes titleGlowPulse {
+  0%, 100% { filter: drop-shadow(0 0 0px rgba(255,255,255,0)); }
+  50%      { filter: drop-shadow(0 0 14px rgba(255, 210, 170, 0.35)); }
+}
+
+.tagline {
+  margin: 10px auto 0;
+  max-width: 260px;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+  color: rgba(255, 245, 235, 0.86);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: subtitleReveal 1s var(--ease-out-soft) 0.9s forwards;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+@keyframes subtitleReveal {
+  0%   { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 0.86; transform: translateY(0); }
+}
+
+/* =========================================================
+   Bottom glass CTA card
+   ========================================================= */
+.cta-card {
+  position: absolute;
+  left: 50%;
+  bottom: 14%;
+  transform: translate(-50%, 24px);
+  width: 86%;
+  max-width: 340px;
+  padding: 22px 24px 20px;
+  border-radius: 26px;
+  z-index: 7;
+  text-align: center;
+  background: linear-gradient(160deg, var(--glass-fill-light) 0%, var(--glass-fill-light-2) 100%);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    0 20px 50px rgba(10, 5, 30, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+  opacity: 0;
+  animation: cardRise 1s var(--ease-out-soft) 1.5s forwards;
+}
+
+@keyframes cardRise {
+  0%   { opacity: 0; transform: translate(-50%, 24px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.cta-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.6px;
+  color: rgba(255, 200, 160, 0.85);
+  margin-bottom: 6px;
+}
+
+.cta-line {
+  font-size: 16.5px;
+  font-weight: 500;
+  color: rgba(255, 250, 245, 0.95);
+  margin-bottom: 18px;
+}
+
+.cta-button {
+  pointer-events: auto;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #2c1a3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  background: linear-gradient(120deg, #c9a6ff 0%, #ffb27a 55%, #ffd9a8 100%);
+  box-shadow: 0 10px 26px rgba(255, 150, 90, 0.35);
+  transition: transform 0.25s var(--ease-out-soft), box-shadow 0.25s var(--ease-out-soft);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(255, 150, 90, 0.45);
+}
+
+.cta-button:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.cta-arrow {
+  transition: transform 0.25s var(--ease-out-soft);
+}
+
+.cta-button:hover .cta-arrow {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   Slide system — two full-screen scenes, crossfaded + slid
+   horizontally when the dot navigation switches between them
+   ========================================================= */
+.slides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(28px);
+  transition:
+    opacity 0.65s var(--ease-in-out-soft),
+    transform 0.65s var(--ease-in-out-soft),
+    visibility 0s linear 0.65s;
+  z-index: 1;
+}
+
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition:
+    opacity 0.65s var(--ease-in-out-soft),
+    transform 0.65s var(--ease-in-out-soft),
+    visibility 0s linear 0s;
+  z-index: 2;
+}
+
+.slide.exit-forward {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-28px);
+  z-index: 1;
+}
+
+.slide.exit-back {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(28px);
+  z-index: 1;
+}
+
+/* =========================================================
+   Shared dot navigation — a small glass pill floating above
+   both slides, always in the same spot so switching feels
+   anchored rather than jumpy
+   ========================================================= */
+.dot-nav {
+  position: absolute;
+  left: 50%;
+  bottom: 3.4%;
+  transform: translateX(-50%);
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 10px 26px rgba(10, 5, 30, 0.4);
+  opacity: 1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.dot-nav.is-hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(12px);
+  pointer-events: none;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.dot.is-active {
+  width: 20px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ffd9a8, #c9a6ff);
+}
+
+/* =========================================================
+   Slide 2 — "Explore Beyond. Travel Smarter."
+   ========================================================= */
+.bg-layer-2 {
+  animation: cinematicZoom 30s ease-in-out infinite alternate;
+}
+
+.bg-image-2 {
+  object-position: center 40%;
+}
+
+.vignette-2 {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(6,3,20,0.25) 0%, rgba(6,3,20,0) 30%, rgba(6,3,20,0.15) 55%, rgba(4,2,14,0.75) 100%);
+}
+
+.back-btn {
+  position: absolute;
+  top: 5.5%;
+  left: 6%;
+  z-index: 9;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--star-white);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass-fill);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: transform 0.2s var(--ease-out-soft), background 0.2s ease;
+}
+
+.slide-2.is-active .back-btn {
+  animation: backBtnRise 0.6s var(--ease-out-soft) 0.5s forwards;
+}
+
+@keyframes backBtnRise {
+  0%   { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Slide 2 is a centered flex column: the plane scene and the glass
+   card stack and center together between the back button and the
+   shared dot nav, so the card never drifts low regardless of screen
+   height or text length. */
+.slide-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide2-content {
+  position: relative;
+  z-index: 4;
+  width: 84%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Paper-plane scene: dashed flight path + gliding plane icon */
+.plane-scene {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  margin-bottom: 22px;
+  z-index: 3;
+}
+
+.plane-trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.trail-path {
+  stroke-dashoffset: 0;
+  opacity: 0;
+  animation:
+    trailReveal 1.2s var(--ease-out-soft) 0.4s forwards,
+    trailShimmer 2.6s linear 1.6s infinite;
+}
+
+@keyframes trailReveal {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes trailShimmer {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -64; }
+}
+
+.paper-plane {
+  position: absolute;
+  top: 14%;
+  right: 10%;
+  width: 46px;
+  height: 46px;
+  filter: drop-shadow(0 6px 14px rgba(255, 150, 90, 0.4));
+  opacity: 0;
+  transform: translate(18px, -12px) rotate(8deg) scale(0.8);
+  animation:
+    planeArrive 0.9s var(--ease-out-soft) 0.5s forwards,
+    planeFloat 4.5s ease-in-out 1.5s infinite;
+}
+
+@keyframes planeArrive {
+  0%   { opacity: 0; transform: translate(18px, -12px) rotate(8deg) scale(0.8); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+
+@keyframes planeFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(-3px, -7px) rotate(-4deg); }
+}
+
+.twinkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--star-white);
+  box-shadow: 0 0 7px 2px rgba(255, 244, 214, 0.8);
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+}
+.t1 { top: 18%; left: 20%; --dur: 2.6s; animation-delay: 0.2s; }
+.t2 { top: 62%; left: 44%; --dur: 3.4s; animation-delay: 1s; }
+.t3 { top: 40%; left: 68%; --dur: 2.9s; animation-delay: 1.7s; }
+
+/* Glass panel holding the headline + copy — white frosted glass,
+   matching the reference feature-card look */
+.explore-card {
+  position: relative;
+  width: 100%;
+  padding: 26px 26px 28px;
+  z-index: 5;
+  border-radius: 24px;
+  background: linear-gradient(160deg, var(--glass-fill-light) 0%, var(--glass-fill-light-2) 100%);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow:
+    0 20px 50px rgba(10, 5, 30, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+.slide-2.is-active .explore-card {
+  animation: exploreCardRise 0.85s var(--ease-out-soft) 0.65s forwards;
+}
+
+@keyframes exploreCardRise {
+  0%   { opacity: 0; transform: translateY(26px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.explore-heading {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.22;
+  color: var(--star-white);
+}
+
+.explore-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.slide-2.is-active .explore-line {
+  animation: exploreLineRise 0.7s var(--ease-out-soft) forwards;
+}
+
+.slide-2.is-active .explore-heading .explore-line:nth-child(1) { animation-delay: 0.85s; }
+.slide-2.is-active .explore-heading .explore-line:nth-child(2) { animation-delay: 0.98s; }
+
+@keyframes exploreLineRise {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.explore-divider {
+  width: 46px;
+  height: 3px;
+  margin: 16px 0 16px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ffd9a8, #c9a6ff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+}
+
+.slide-2.is-active .explore-divider {
+  animation: dividerGrow 0.6s var(--ease-out-soft) 1.1s forwards;
+}
+
+@keyframes dividerGrow {
+  0%   { opacity: 0; transform: scaleX(0); }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+
+.explore-copy {
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 245, 235, 0.82);
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.slide-2.is-active .explore-copy {
+  animation: exploreLineRise 0.7s var(--ease-out-soft) 1.2s forwards;
+}
+
+/* =========================================================
+   Slide 3 — feature highlights
+   Same mountain photo as slide 2, given a deeper blue duotone
+   tint to match the cooler, more saturated mood of this screen.
+   ========================================================= */
+.bg-layer-3 {
+  animation: cinematicZoom 32s ease-in-out infinite alternate;
+}
+
+.bg-image-3 {
+  object-position: center 42%;
+}
+
+.tint-blue {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(40, 70, 200, 0.42) 0%, rgba(30, 40, 130, 0.5) 55%, rgba(10, 15, 60, 0.65) 100%);
+  mix-blend-mode: color;
+}
+
+.vignette-3 {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(6,10,40,0.35) 0%, rgba(6,10,40,0) 26%, rgba(6,10,40,0.1) 55%, rgba(4,6,26,0.7) 100%);
+}
+
+.feature-list {
+  position: absolute;
+  top: 50%;
+  left: 7%;
+  width: 86%;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 20px;
+  min-height: 108px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, var(--glass-fill-light) 0%, var(--glass-fill-light-2) 100%);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    0 16px 40px rgba(6, 10, 40, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.slide-3.is-active .feature-card {
+  animation: featureRise 0.7s var(--ease-out-soft) forwards;
+}
+.slide-3.is-active .feature-card:nth-child(1) { animation-delay: 0.35s; }
+.slide-3.is-active .feature-card:nth-child(2) { animation-delay: 0.48s; }
+.slide-3.is-active .feature-card:nth-child(3) { animation-delay: 0.61s; }
+
+@keyframes featureRise {
+  0%   { opacity: 0; transform: translateY(22px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.feature-icon {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--star-white);
+  background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.32), rgba(140,105,220,0.24) 55%, rgba(60,40,140,0.3) 100%);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.25), 0 4px 12px rgba(20,8,60,0.35);
+}
+
+.feature-text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--star-white);
+  margin-bottom: 3px;
+}
+
+.feature-text p {
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: rgba(255, 245, 235, 0.78);
+}
+
+.next-arrow {
+  position: absolute;
+  right: 7%;
+  bottom: 6%;
+  z-index: 9;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2c1a3d;
+  background: linear-gradient(120deg, #c9a6ff 0%, #ffb27a 55%, #ffd9a8 100%);
+  box-shadow: 0 12px 28px rgba(255, 150, 90, 0.4);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(14px) scale(0.9);
+  transition: transform 0.25s var(--ease-out-soft), box-shadow 0.25s var(--ease-out-soft);
+}
+
+.slide-3.is-active .next-arrow {
+  animation: nextArrowRise 0.6s var(--ease-out-soft) 0.85s forwards;
+}
+
+@keyframes nextArrowRise {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.next-arrow:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 16px 34px rgba(255, 150, 90, 0.5);
+}
+
+.next-arrow:active {
+  transform: translateY(0) scale(0.96);
+}
+
+/* =========================================================
+   Slide 4 — sign in / sign up
+   ========================================================= */
+.bg-layer-4 {
+  animation: cinematicZoom 34s ease-in-out infinite alternate;
+}
+
+.bg-image-4 {
+  object-position: center 46%;
+}
+
+.vignette-4 {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(12,8,32,0.55) 0%, rgba(12,8,32,0.32) 28%, rgba(10,6,28,0.42) 60%, rgba(6,3,20,0.85) 100%);
+}
+
+.auth-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 9%;
+  overflow-y: auto;
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* old Edge / IE */
+}
+
+.auth-wrap::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, new Edge */
+  width: 0;
+  height: 0;
+}
+
+/* No card container by design — fields and buttons sit directly on
+   the background photo, matching the reference (just layout, no
+   background/border/blur/shadow of its own). */
+.auth-card {
+  width: 100%;
+  padding: 12px 0 28px;
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+.slide-4.is-active .auth-card {
+  animation: exploreCardRise 0.85s var(--ease-out-soft) 0.5s forwards;
+}
+
+.auth-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  color: rgba(255, 200, 160, 0.85);
+  margin-bottom: 8px;
+}
+
+.auth-heading {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--star-white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-emoji {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 20px;
+}
+
+.auth-subtitle {
+  font-size: 14px;
+  color: rgba(255, 245, 235, 0.72);
+  margin-top: 4px;
+  margin-bottom: 22px;
+}
+
+.auth-field {
+  margin-bottom: 16px;
+}
+
+.auth-field label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: rgba(255, 245, 235, 0.75);
+  margin-bottom: 7px;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 13px 15px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border-light);
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--star-white);
+  font-size: 14.5px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.auth-field input::placeholder {
+  color: rgba(255, 245, 235, 0.4);
+}
+
+.auth-field input:focus {
+  border-color: rgba(216, 205, 251, 0.7);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.auth-input-wrap {
+  position: relative;
+}
+
+.auth-input-wrap input {
+  padding-right: 44px;
+}
+
+.auth-eye {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 245, 235, 0.55);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color 0.2s ease;
+}
+
+.auth-eye:hover,
+.auth-eye.is-visible {
+  color: var(--lavender);
+}
+
+.auth-forgot {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lavender);
+  text-decoration: none;
+  margin: -6px 0 18px;
+}
+
+.auth-forgot:hover {
+  text-decoration: underline;
+}
+
+.auth-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 245, 235, 0.78);
+  margin: 4px 0 20px;
+  cursor: pointer;
+}
+
+.auth-terms input[type="checkbox"] {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  flex: none;
+  accent-color: #c9a6ff;
+}
+
+.auth-terms a {
+  color: var(--lavender);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.auth-submit {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 20px;
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #2c1a3d;
+  cursor: pointer;
+  background: linear-gradient(120deg, #c9a6ff 0%, #ffb27a 55%, #ffd9a8 100%);
+  box-shadow: 0 10px 26px rgba(255, 150, 90, 0.35);
+  transition: transform 0.25s var(--ease-out-soft), box-shadow 0.25s var(--ease-out-soft);
+}
+
+.auth-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(255, 150, 90, 0.45);
+}
+
+.auth-submit:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 18px;
+  font-size: 12.5px;
+  color: rgba(255, 245, 235, 0.55);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--glass-border-light);
+}
+
+.auth-social {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border-light);
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--star-white);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.auth-social-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.auth-social-btn svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13.5px;
+  color: rgba(255, 245, 235, 0.7);
+}
+
+.auth-switch-link {
+  border: none;
+  background: none;
+  padding: 0;
+  margin-left: 5px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--lavender);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* =========================================================
+   Mobile-specific spacing fixes
+   ========================================================= */
+@media (max-width: 460px), (max-height: 950px) {
+
+  /* Explore card (slide 2): pull the whole content block up from
+     dead-center so it settles in the upper-middle of the screen
+     instead of reading as pushed down toward the dot nav */
+  .slide-2 {
+    align-items: flex-start;
+    padding-top: 11%;
+  }
+
+  .plane-scene {
+    height: 140px;
+    margin-bottom: 14px;
+  }
+
+  .slide2-content {
+    width: 88%;
+  }
+
+  /* Feature cards (slide 3): give each card real breathing room */
+  .feature-list {
+    gap: 14px;
+  }
+
+  .feature-card {
+    min-height: 140px;
+    padding: 26px 20px;
+  }
+
+  .feature-icon {
+    width: 54px;
+    height: 54px;
+  }
+
+  .auth-card {
+    max-height: 92vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .auth-card::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* =========================================================
+   Reduced motion accessibility
+
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .bg-layer,
+  .glow-top,
+  .glow-bottom,
+  .particle,
+  .comet,
+  .globe-scene,
+  .globe-sphere,
+  .globe-shadow,
+  .globe-shine,
+  .orbit-spin,
+  .mote,
+  .brand,
+  .tagline,
+  .cta-card,
+  .slide,
+  .back-btn,
+  .trail-path,
+  .paper-plane,
+  .twinkle,
+  .explore-card,
+  .explore-line,
+  .explore-divider,
+  .explore-copy,
+  .feature-card,
+  .next-arrow,
+  .auth-card {
+    animation: none !important;
+  }
+  .slide { transition: opacity 0.3s linear; transform: none; }
+  .slide.is-active { opacity: 1; }
+  .slide:not(.is-active) { opacity: 0; visibility: hidden; }
+  .globe-scene, .brand, .tagline, .cta-card { opacity: 1; transform: translateX(-50%); }
+  .brand, .tagline, .cta-card { transform: none; }
+  .back-btn, .paper-plane, .explore-card, .explore-line, .explore-copy, .explore-divider,
+  .trail-path, .feature-card, .next-arrow, .auth-card {
+    opacity: 1;
+    transform: none;
+  }
+}
